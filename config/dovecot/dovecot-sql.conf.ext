@@ -1,0 +1,25 @@
+# Dovecot SQL Authentication Configuration
+
+driver = pgsql
+connect = host=postgres dbname=mailserver user=mailuser password=changeme_strong_password_here
+
+# Password query
+password_query = \
+  SELECT email as user, password \
+  FROM virtual_users \
+  WHERE email='%u' AND active = true
+
+# User query
+user_query = \
+  SELECT email as user, \
+    '/var/mail/%d/%n' as home, \
+    5000 as uid, \
+    5000 as gid \
+  FROM virtual_users \
+  WHERE email='%u' AND active = true
+
+# Iterate query (for doveadm operations)
+iterate_query = SELECT email as user FROM virtual_users WHERE active = true
+
+# Default password scheme
+default_pass_scheme = BLF-CRYPT

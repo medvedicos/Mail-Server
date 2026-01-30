@@ -1,0 +1,46 @@
+# Environment variables
+.env
+
+# Mail data
+data/
+maildata/
+dkim/
+ssl/
+logs/
+
+# Database data
+postgres-data/
+
+# Roundcube data
+roundcube/
+
+# Backup files
+backups/
+*.backup
+*.sql.gz
+
+# SSL certificates
+certs/
+*.pem
+*.key
+*.crt
+
+# Log files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp

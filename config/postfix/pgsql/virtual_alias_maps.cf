@@ -1,0 +1,5 @@
+hosts = postgres
+user = mailuser
+password = changeme_strong_password_here
+dbname = mailserver
+query = SELECT destination FROM virtual_aliases WHERE source='%s'
