@@ -66,11 +66,12 @@ ON CONFLICT (name) DO NOTHING;
 
 -- Create a default admin user (password: changeme)
 -- Password hash generated with: doveadm pw -s BLF-CRYPT -p changeme
+-- Using $2a$ prefix for standard bcrypt compatibility with Dovecot
 INSERT INTO virtual_users (domain_id, email, password, quota, active)
 SELECT 
     d.id,
     'admin@sutulaya.lol',
-    '$2y$05$bvIG6Nmid91Mu9RcmmWZfO5HJIMCT8riNW0hEp8f6/FuA2/mHZFpe',
+    '{BLF-CRYPT}$2a$05$bvIG6Nmid91Mu9RcmmWZfO5HJIMCT8riNW0hEp8f6/FuA2/mHZFpe',
     5368709120, -- 5GB
     true
 FROM virtual_domains d
