@@ -31,10 +31,10 @@ services:
     container_name: mailserver-db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: MsSutulaya2026!Strong
-      MYSQL_DATABASE: roundcube
-      MYSQL_USER: roundcube
-      MYSQL_PASSWORD: MsSutulaya2026!Strong
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-roundcube}
+      MYSQL_USER: ${MYSQL_USER:-roundcube}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./data/mysql:/var/lib/mysql
     healthcheck:
@@ -53,9 +53,9 @@ services:
       ROUNDCUBEMAIL_DB_TYPE: mysql
       ROUNDCUBEMAIL_DB_HOST: mysql
       ROUNDCUBEMAIL_DB_PORT: 3306
-      ROUNDCUBEMAIL_DB_USER: roundcube
-      ROUNDCUBEMAIL_DB_PASSWORD: MsSutulaya2026!Strong
-      ROUNDCUBEMAIL_DB_NAME: roundcube
+      ROUNDCUBEMAIL_DB_USER: ${MYSQL_USER:-roundcube}
+      ROUNDCUBEMAIL_DB_PASSWORD: ${MYSQL_PASSWORD}
+      ROUNDCUBEMAIL_DB_NAME: ${MYSQL_DATABASE:-roundcube}
       ROUNDCUBEMAIL_DEFAULT_PORT: 993
       ROUNDCUBEMAIL_SMTP_PORT: 587
       ROUNDCUBEMAIL_LANGUAGE: ru_RU
@@ -86,6 +86,7 @@ services:
     depends_on:
       - roundcube
       - registration
+      - login
 
   registration:
     build:
@@ -101,3 +102,14 @@ services:
     depends_on:
       mailserver:
         condition: service_started
+
+  login:
+    build:
+      context: ./login
+      dockerfile: Dockerfile
+    container_name: mailserver-login
+    restart: unless-stopped
+    expose:
+      - "80"
+    depends_on:
+      - roundcube
